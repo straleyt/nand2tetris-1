@@ -1,0 +1,40 @@
+//Excutes a sequence of arithmetic and logical operations on the stack 
+
+push contstant 17 
+push constant 17 
+eq
+push constant 17 
+push constant 16
+eq
+push contstant 16 
+push constant 17 
+eq
+push constant 892
+push constant 891
+eq
+push contstant 891
+push constant 892
+eq
+push constant 891
+push constant 891
+eq
+push contstant 32767
+push constant 32766 
+eq
+push constant 32766 
+push constant 32766
+eq
+push constant 57
+push constant 31
+push constant 53 
+add
+pushconstant 112
+sub
+neg
+and
+push constant 82 
+or
+not
+
+
+
