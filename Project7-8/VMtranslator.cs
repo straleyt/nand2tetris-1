@@ -493,33 +493,42 @@ namespace VMtranslator
             Console.WriteLine("Enter in the .vm file/directory you wish to convert to .asm : ");
             string vmFileName = Console.ReadLine();
             string line;
-            System.IO.StreamReader file = new System.IO.StreamReader(vmFileName);
-            Program program = new Program();
 
-            //change .asm to .hack
-            char[] asmFileName = new char[vmFileName.Length - 2];
-            for (int i = 0; i < vmFileName.Length - 2; i++)
+            if (File.Exists(vmFileName))
             {
-                asmFileName[i] = vmFileName[i]; 
+                System.IO.StreamReader file = new System.IO.StreamReader(vmFileName);
+                Program program = new Program();
+
+                //change .asm to .hack
+                char[] asmFileName = new char[vmFileName.Length - 2];
+                for (int i = 0; i < vmFileName.Length - 2; i++)
+                {
+                    asmFileName[i] = vmFileName[i];
+                }
+
+                string asmFileNameString = new string(asmFileName);
+                string logFileNameString = new string(asmFileName);
+                logFileNameString = string.Concat(asmFileNameString, "log"); //making a .log to fill with same as what we Console.WriteLine();
+                asmFileNameString = string.Concat(asmFileNameString, "asm"); //.asm is now .hack
+                System.IO.StreamWriter fileOutput = new System.IO.StreamWriter(asmFileNameString);
+                System.IO.StreamWriter logOutput = new System.IO.StreamWriter(logFileNameString);
+
+                while ((line = file.ReadLine()) != null)
+                { //line by line each loop through
+                    program.parser(line, fileOutput, logOutput);
+                }
+
+                Console.ReadLine();
+
+                file.Close();
+                fileOutput.Close();
+                logOutput.Close(); //this is a text file to store messages and any error messages 
             }
 
-            string asmFileNameString = new string(asmFileName);
-            string logFileNameString = new string(asmFileName);
-            logFileNameString = string.Concat(asmFileNameString, "log"); //making a .log to fill with same as what we Console.WriteLine();
-            asmFileNameString = string.Concat(asmFileNameString, "asm"); //.asm is now .hack
-            System.IO.StreamWriter fileOutput = new System.IO.StreamWriter(asmFileNameString);
-            System.IO.StreamWriter logOutput = new System.IO.StreamWriter(logFileNameString);
+            else if (Directory.Exists(vmFileName)){
 
-            while ((line = file.ReadLine()) != null)
-            { //line by line each loop through
-                program.parser(line, fileOutput, logOutput);
+
             }
-
-            Console.ReadLine();
-
-            file.Close();
-            fileOutput.Close();
-            logOutput.Close(); //this is a text file to store messages and any error messages 
         }//end of main
     }//end of class Program
 }//end of namespace
